@@ -30,10 +30,13 @@ public class funciones {
                 if (tablero[i][j] == casilla_vacia) {
 
                     casilla = " ";
-                } else if (tablero[i][j] == ficha_circulo) {
-                    casilla = "\033";
                 }
-                System.out.print("| "+"1"+" "+"\n");
+                if (tablero[i][j] == ficha_circulo) {
+                    casilla = "\033";
+                } if (tablero[i][j] == ficha_cruz){
+                    casilla = "\044";
+                }
+                System.out.print(" ");
                 System.out.print("| " +casilla+ " ");
             }
 
@@ -42,7 +45,19 @@ public class funciones {
 
 
     }
+
     public static boolean colocarFicha(int [][] tablero, int ficha, int columna){
+            int j = columna;
+            int i = tablero.length-1;
+            if (tablero[i][j] == casilla_vacia && ficha == ficha_cruz) {
+                tablero[i][j] = ficha_circulo;
+            } else if (tablero[i][j] == casilla_vacia && ficha == ficha_circulo){
+                if ()
+                tablero[i][j] = ficha_circulo;
+            }
+        j--;
+
+
         return false;
     }
 

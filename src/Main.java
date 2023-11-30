@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 public class Main {
     public static final boolean partida_fin = false;
@@ -22,17 +23,34 @@ public class Main {
         int modo = funciones.leerInt("Seleccione el modo de juego:"+"\n"+"1. Un jugador"+"\n"+"2. Dos Jugadores");//Leemos que ha introducido el usuario(1(un jugador) o 2(dos jugadores)).
 
         if (modo == 1) {//Si el modo de juego es de un jugador se activa la condición de un jugador
-
+            Random bot = new Random();
             System.out.println("Introduce tu nombre jugador!");
             String nombre_j1 = leer.next();
 
             System.out.println("Introduce que nivel de IA deseas: "+"\n"+"1. Nivel 1"+"\n"+"2. Nivel 2");
             int ia_lvl = leer.nextInt();
 
-
+            int turno = 1;
             while (!partida_fin){
                 System.out.println("Prepárate "+nombre_j1);
+                System.out.println("Dónde deseas colocar la ficha "+nombre_j1+"?");
+                int columna_j1 = 0;
+                int columna_bot = 0;
 
+                if (turno == 1) {
+                    do {
+                        System.out.println("Introduce un valor válido");
+                    } while (columna_j1 < 0 || columna_j1 > tablero.length);
+                    columna_j1 = leer.nextInt();
+                    funciones.colocarFicha(tablero, ficha_circulo, columna_j1);
+                    funciones.mostrarTablero(tablero);
+                    turno--;
+                } else if (turno == 0) {
+                    columna_bot = bot.nextInt(tablero.length);
+                    funciones.colocarFicha(tablero, ficha_cruz, columna_bot);
+                    funciones.mostrarTablero(tablero);
+                    turno++;
+                }
             }
 
 
