@@ -30,8 +30,13 @@ public class Main {
             Random bot = new Random();
             System.out.println("Introduce tu nombre jugador!");
             String nombre_j1 = leer.next();
+            int nivel_bot = 0;
 
-            System.out.println("Introduce que nivel de IA deseas: " + "\n" + "1. Nivel 1" + "\n" + "2. Nivel 2");
+
+                nivel_bot = Funciones.leerIntValue("Introduce un nivel", 1, 2);
+
+
+
 
 
             int turno = 1;
@@ -71,7 +76,7 @@ public class Main {
                 }
                 if (turno == 0) {
                     columna_bot = bot.nextInt(tablero.length);
-                    boolean colocar_bot = Funciones.colocarFicha(tablero, FICHA_CRUZ, columna_bot);
+                    Funciones.colocarFicha(tablero, FICHA_CRUZ, columna_bot);
                     boolean comprobar_bot = Funciones.comprobarLinea(tablero, columna_bot, 4);
                     System.out.println("--------------bot-------------");
 

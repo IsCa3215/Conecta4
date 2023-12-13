@@ -19,7 +19,24 @@ public class Funciones {
         int valor2 = leer.nextInt();
         return valor2;
     }
+    public static int leerIntValue(String mensaje, int min, int max){
+        Scanner leer = new Scanner(System.in);
+        System.out.println(mensaje);
 
+    do {
+
+
+        while (!leer.hasNextInt()) {
+            leer.nextLine();
+            System.out.println("\u001B[31m" + "No se ha introducido un valor válido, Inténtalo de nuevo" + "\u001B[0m");
+        }
+
+
+        int valor2 = leer.nextInt();
+    }while(valor2 );
+        return valor2;
+
+    }
 
     public static void mostrarTablero(int[][] tablero) {//Esta función muestra el tablero y modifica los valores de las casillas por otros
 
