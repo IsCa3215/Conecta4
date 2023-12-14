@@ -1,3 +1,5 @@
+
+
 import java.util.Scanner;
 
 public class Funciones {
@@ -19,29 +21,28 @@ public class Funciones {
         int valor2 = leer.nextInt();
         return valor2;
     }
-    public static int leerIntValue(String mensaje, int min, int max){
+
+    public static int leerIntValue(String mensaje, int min, int max) {
+        int comprobar = leerInt(mensaje);
         Scanner leer = new Scanner(System.in);
-        System.out.println(mensaje);
 
-    do {
-
-
-        while (!leer.hasNextInt()) {
-            leer.nextLine();
-            System.out.println("\u001B[31m" + "No se ha introducido un valor válido, Inténtalo de nuevo" + "\u001B[0m");
+        while (comprobar > max || comprobar < min) {
+            System.out.println("\u001B[31m" + "No se ha introducido un valor válido" + "\u001B[0m");
+            comprobar = leer.nextInt();
         }
 
 
-        int valor2 = leer.nextInt();
-    }while(valor2 );
-        return valor2;
+        return comprobar;
 
     }
 
     public static void mostrarTablero(int[][] tablero) {//Esta función muestra el tablero y modifica los valores de las casillas por otros
 
         String casilla = null;
-
+        for (int l = 0; l < tablero[0].length-1; l++) {
+            System.out.print("   " + l + " ");
+        }
+        System.out.println();
         for (int i = 0; i < tablero.length; i++) {
 
             for (int j = 0; j < tablero.length; j++) {
@@ -67,6 +68,43 @@ public class Funciones {
 
 
     }
+
+    public static void mostrarTablero(int[][] tablero, int columna){
+        final String RESET = "\u001B[0m";
+        final String RED_BOLD = "\033[1;31m";
+
+        String casilla;
+        for (int l = 0; l < tablero[0].length; l++) {
+            System.out.print("   " + l + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[0].length; j++) {
+                casilla = " ";
+
+                if (tablero[i][j] == FICHA_CIRCULO) {
+                    casilla = "O";
+                } else if (tablero[i][j] == FICHA_CRUZ) {
+                    casilla = "X";
+                }
+
+                if (j == columna) {
+                    if (tablero[i][j] != CASILLA_VACIA) {
+                        casilla = RED_BOLD + casilla + RESET;
+                    }
+                } else {
+                    if (tablero[i][j] != CASILLA_VACIA) {
+                        casilla = RESET + casilla;
+                    }
+                }
+
+                System.out.print(" ");
+                System.out.print("| " + casilla + " ");
+            }
+            System.out.println("|");
+        }
+    }
+
 
     public static boolean colocarFicha(int[][] tablero, int ficha, int columna) {//Esta función comprueba si hay fichas colocadas y las coloca según esté vacía.
 
@@ -96,8 +134,11 @@ public class Funciones {
         if (ultima_Fila == -1) {
             return false;
         }
+
         int ficha = tablero[ultima_Fila][columna];
         int contador_horizontal = 0;
+
+
         for (int i = 0; i < tablero[0].length; i++) {
             if (tablero[ultima_Fila][i] == ficha) {
                 contador_horizontal++;
@@ -108,19 +149,37 @@ public class Funciones {
                 contador_horizontal = 0;
             }
         }
+
+
         int contador_vertical = 0;
         for (int i = 0; i < tablero.length; i++) {
             if (tablero[i][columna] == ficha) {
                 contador_vertical++;
                 if (contador_vertical >= n) {
                     return true;
-                } else {
-                    contador_vertical = 0;
+                }
+            } else {
+                contador_vertical = 0;
+            }
+        }
+        for (int fila = 0; fila < tablero.length; fila++) {
+            for (int columna_c = 0; columna_c < tablero[0].length; columna_c++) {
+                int contador = 0;
+                for (int k = 0; k < n; k++) {
+                    if (fila + k < tablero.length && columna_c + k < tablero[0].length && tablero[fila + k][columna_c + k] == ficha) {
+                        contador++;
+                        if (contador >= n) {
+                            return true;
+                        }
+                    } else {
+                        break;
+                    }
                 }
             }
         }
+
+
+
         return false;
     }
 }
-
-

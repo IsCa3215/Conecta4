@@ -33,67 +33,70 @@ public class Main {
             int nivel_bot = 0;
 
 
-                nivel_bot = Funciones.leerIntValue("Introduce un nivel", 1, 2);
+            nivel_bot = Funciones.leerIntValue("Introduce un nivel", 1, 2);
 
 
+            if (nivel_bot == 1) {
+                int turno = 1;
+                while (!PARTIDA_FIN) {
+                    boolean colocar_j1 = false;
+                    System.out.println("Prepárate " + nombre_j1);
+                    int columna_j1 = 0;
+                    int columna_bot = 0;
 
-
-
-            int turno = 1;
-            while (!PARTIDA_FIN) {
-                boolean colocar_j1 = false;
-                System.out.println("Prepárate " + nombre_j1);
-                int columna_j1 = 0;
-                int columna_bot = 0;
-
-                if (turno == 1) {
-                    columna_j1 = Funciones.leerInt("Dónde deseas colocar la ficha " + nombre_j1 + "?");
-
-                    while (columna_j1 < 0 || columna_j1 > tablero.length) {
-                        System.out.println("\u001B[31m" + "Introduce un valor válido" + "\u001B[0m");
+                    if (turno == 1) {
                         columna_j1 = Funciones.leerInt("Dónde deseas colocar la ficha " + nombre_j1 + "?");
 
-                    }
-                    colocar_j1 = Funciones.colocarFicha(tablero, FICHA_CIRCULO, columna_j1);
-                    boolean comprobar_j1 = Funciones.comprobarLinea(tablero, columna_j1, 4);
-                    Funciones.mostrarTablero(tablero);
-                    if (comprobar_j1) {
-                        Funciones.mostrarTablero(tablero);
-                        System.out.println(nombre_j1 + "\u001B[32m" + " Ha ganado la partida!" + "\u001B[0m");
+                        while (columna_j1 < 0 || columna_j1 > tablero.length) {
+                            System.out.println("\u001B[31m" + "Introduce un valor válido" + "\u001B[0m");
+                            columna_j1 = Funciones.leerInt("Dónde deseas colocar la ficha " + nombre_j1 + "?");
 
-                        return;
-                    }
-                    while (!colocar_j1) {
-                        System.out.println("\u001B[31m" + "No se ha podido colocar la ficha!" + "\u001B[0m");
-                        columna_j1 = Funciones.leerInt("Dónde deseas colocar la ficha " + nombre_j1 + "?");
+                        }
                         colocar_j1 = Funciones.colocarFicha(tablero, FICHA_CIRCULO, columna_j1);
-                        Funciones.comprobarLinea(tablero, columna_j1, 4);
+                        boolean comprobar_j1 = Funciones.comprobarLinea(tablero, columna_j1, 4);
+                        Funciones.mostrarTablero(tablero, columna_j1);
+                        if (comprobar_j1) {
+                            System.out.println("---------------------------------------------------");
+                            Funciones.mostrarTablero(tablero, columna_j1);
+                            System.out.println(nombre_j1 + "\u001B[32m" + " Ha ganado la partida!" + "\u001B[0m");
+
+                            return;
+                        }
+                        while (!colocar_j1) {
+                            System.out.println("\u001B[31m" + "No se ha podido colocar la ficha!" + "\u001B[0m");
+                            columna_j1 = Funciones.leerInt("Dónde deseas colocar la ficha " + nombre_j1 + "?");
+                            colocar_j1 = Funciones.colocarFicha(tablero, FICHA_CIRCULO, columna_j1);
+                            Funciones.comprobarLinea(tablero, columna_j1, 4);
+                            Funciones.mostrarTablero(tablero, FICHA_CIRCULO);
+                        }
+
+                        turno--;
+
+                    }
+                    if (turno == 0) {
+                        columna_bot = bot.nextInt(tablero.length);
+                        Funciones.colocarFicha(tablero, FICHA_CRUZ, columna_bot);
+                        boolean comprobar_bot = Funciones.comprobarLinea(tablero, columna_bot, 4);
+                        System.out.println("--------------bot-------------");
+
+                        if (comprobar_bot) {
+                            Funciones.mostrarTablero(tablero, FICHA_CIRCULO);
+                            System.out.println("El bot" + "\u001B[32m" + " Ha ganado la partida!" + "\u001B[0m");
+
+                            return;
+                        }
                         Funciones.mostrarTablero(tablero);
+                        turno++;
+
+
                     }
 
-                    turno--;
-
                 }
-                if (turno == 0) {
-                    columna_bot = bot.nextInt(tablero.length);
-                    Funciones.colocarFicha(tablero, FICHA_CRUZ, columna_bot);
-                    boolean comprobar_bot = Funciones.comprobarLinea(tablero, columna_bot, 4);
-                    System.out.println("--------------bot-------------");
+            }
+            if (nivel_bot == 2){
 
-                    if (comprobar_bot) {
-                        Funciones.mostrarTablero(tablero);
-                        System.out.println("El bot" + "\u001B[32m" + " Ha ganado la partida!" + "\u001B[0m");
-
-                        return;
-                    }
-                    Funciones.mostrarTablero(tablero);
-                    turno++;
-
-
-                }
 
             }
-
 
         } else if (modo == 2) {//Si el modo de juego es de dos jugadores se activa la condición dos jugadores
             int turno = 1;
@@ -134,12 +137,12 @@ public class Main {
                         Funciones.mostrarTablero(tablero);
                     }
                     colocar = Funciones.colocarFicha(tablero, FICHA_CRUZ, columna_jug2);
-                    Funciones.mostrarTablero(tablero);
+                    Funciones.mostrarTablero(tablero, FICHA_CIRCULO);
                     while (!colocar) {
                         System.out.println("\u001B[31m" + "No se ha podido colocar la ficha!" + "\u001B[0m");
                         columna_jug2 = Funciones.leerInt("Dónde deseas colocar la ficha " + nombre_j2 + "?");
                         colocar = Funciones.colocarFicha(tablero, FICHA_CRUZ, columna_jug2);
-                        Funciones.mostrarTablero(tablero);
+                        Funciones.mostrarTablero(tablero, FICHA_CIRCULO);
                     }
                     turno++;
                 }
